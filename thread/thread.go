@@ -8,8 +8,8 @@ import (
 	"time"
 )
 
-// 交替打印字符串
-func alternatePrint(s1, s2 string) string {
+// AlternatePrint 交替打印字符串
+func AlternatePrint(s1, s2 string) string {
 	if len(s1) != len(s2) {
 		panic("字符串的长度必须相等，不然怎么交替打印？")
 	}
@@ -39,7 +39,8 @@ func alternatePrint(s1, s2 string) string {
 	return string(res)
 }
 
-func producerAndConsumer(producerNum, consumerNum, num int) {
+// ProducerAndConsumer 生产者与消费者问题
+func ProducerAndConsumer(producerNum, consumerNum, num int) {
 	const letterBytes = "abcdefghijklmnopqrstuvwxyz"
 	product := make(chan string, num)
 	producer := func(name string) {
@@ -57,9 +58,9 @@ func producerAndConsumer(producerNum, consumerNum, num int) {
 	}
 	consumer := func(name string) {
 		for {
+			time.Sleep(1 * time.Second)
 			productName := <-product
 			log.Printf("[%s] 消费者消费了一个产品 [%s]", name, productName)
-			time.Sleep(1 * time.Second)
 		}
 	}
 	for i := 0; i < producerNum; i++ {
