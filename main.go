@@ -20,19 +20,7 @@ func (ej *ExampleJob) Do() error {
 func main() {
 	pool := thread.NewPool(5, 10)
 	pool.Start()
-
-	//for i := 0; i < 10; i++ {
-	//	pool.AddJob(&ExampleJob{id: i})
-	//}
-	var i int
-	for {
-		i++
-		pool.AddJob(&ExampleJob{id: i})
-		time.Sleep(2 * time.Second)
-		if i == 5 {
-			pool.Stop()
-		}
-	}
-	pool.Wait()
+	fmt.Println("等待线程池停止指令")
+	time.Sleep(2 * time.Second)
 	pool.Stop()
 }

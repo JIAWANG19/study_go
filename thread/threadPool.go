@@ -44,9 +44,7 @@ func (w *Worker) Start() {
 }
 
 func (w *Worker) Stop() {
-	go func() {
-		w.quit <- true
-	}()
+	w.quit <- true
 }
 
 type Pool struct {
@@ -69,6 +67,7 @@ func NewPool(numWorkers int, jobQueueLength int) *Pool {
 }
 
 func (p *Pool) Start() {
+	p.wg.Add(1)
 	for _, worker := range p.workers {
 		worker.Start()
 	}
@@ -78,6 +77,7 @@ func (p *Pool) Stop() {
 	for _, worker := range p.workers {
 		worker.Stop()
 	}
+	p.wg.Done()
 }
 
 func (p *Pool) Wait() {
@@ -87,4 +87,5 @@ func (p *Pool) Wait() {
 func (p *Pool) AddJob(job Job) {
 	p.wg.Add(1)
 	p.jobChannel <- job
+	p.wg.Done()
 }
